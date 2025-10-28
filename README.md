@@ -1,6 +1,6 @@
 # 🖼️ AI Image Organizer: Smart Classification and Renaming
 
-**AI Image Organizer** is a powerful, Python-based executable application designed to intelligently classify, organize, and optionally rename your image files using state-of-the-art multimodal AI models, **CLIP** and **BLIP**.
+**AI Image Organizer** is a powerful, Python-based application designed to intelligently classify, organize, and optionally rename your image files using state-of-the-art multimodal AI models, **CLIP** and **BLIP**.
 
 ## ✨ Features
 
@@ -8,61 +8,89 @@
 * **Automatic Folder Creation:** Classifies images into relevant, automatically created folders (e.g., *Cats*, *Landscapes*, *Abstract*).
 * **Path-Based Processing:** Simply enter the path to a folder containing your images, and the application handles the rest.
 * **Flexible Renaming:** Optional feature to rename images based on their predicted class, ensuring file names are descriptive.
-* **Standalone Executable:** Distribute and run the application easily without needing to manage complex Python dependencies.
+* **Open Source Python Script:** Easily runnable and customizable via the `main.py` script.
 
 ---
 
 ## 🚀 Getting Started
 
+Since this application runs directly from a Python script, you'll need to set up your environment first.
+
 ### Prerequisites
 
-Since this is a standalone executable, you should only need the following:
+1.  **Python 3.8+:** Make sure you have a recent version of Python installed on your system.
+2.  **Git:** Needed to clone the repository (optional, but recommended).
 
-* **Operating System:** Windows, macOS, or Linux (depending on how the executable was bundled).
-* **Input Directory:** A folder containing the images you wish to classify (supports common formats like `.jpg`, `.png`, `.webp`).
+### Installation and Setup
 
-### Installation and Usage
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/elhanbthomas/AI-Image-Classifier.git
+    cd AI-Image-Classifier
+    ```
+    *(If you aren't using Git, just download the ZIP file and extract the contents.)*
 
-1.  **Download:** Obtain the latest executable file (`ai_image_organizer.exe`, or similar) from the release page.
-2.  **Run:** Double-click the executable file. A command-line interface (CLI) will open.
-3.  **Input Path:** You will be prompted to enter the **absolute path** to the directory containing your images:
+2.  **Create a Virtual Environment (Recommended):**
+    This isolates the project dependencies from your main Python installation.
+    ```bash
+    python -m venv venv
+    ```
+
+3.  **Activate the Virtual Environment:**
+    * **Windows:**
+        ```bash
+        venv\Scripts\activate
+        ```
+    * **macOS/Linux:**
+        ```bash
+        source venv/bin/activate
+        ```
+
+4.  **Install Dependencies:**
+    All required packages, including `torch`, `transformers` (for CLIP/BLIP), and `Pillow`, are listed in `requirements.txt`.
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+### Usage
+
+1.  **Run the Application:**
+    Ensure your virtual environment is active, then run the main script:
+    ```bash
+    python main.py
+    ```
+
+2.  **Input Path:**
+    The application will prompt you to enter the **absolute path** to the directory containing your unsorted images:
     ```
     Please enter the full path to the folder containing the images:
     > C:\Users\YourName\Desktop\Unsorted_Photos
     ```
-4.  **Options:** Follow the prompts to select your preferences:
-    * **Classification Strategy:** Choose which model (CLIP or BLIP) or a combination to use for classification.
-    * **Renaming:** Choose whether to rename the files based on their predicted category.
+
+3.  **Options:**
+    Follow the subsequent prompts to select your preferences, such as choosing between the **CLIP** or **BLIP** classification methods, and whether to enable the **renaming** feature.
 
 ---
 
 ## 🧠 How It Works
 
-The core of this application relies on two powerful models:
+The core of this application relies on two powerful multimodal AI models:
 
 ### 1. Classification with CLIP
+**CLIP** is used for its superior ability to match an image to a given set of text labels (classes). It calculates the similarity between the image features and the category text embeddings, placing the image into the folder corresponding to the best match.
 
-**CLIP** is used for its strong ability to match an image to a given set of text labels (classes).
-
-* The model evaluates the similarity between the image and a predefined list of potential categories (e.g., *'a photo of a car'*, *'a drawing of a bird'*).
-* The image is then placed into the folder corresponding to the label with the highest similarity score.
-
-### 2. Context Generation with BLIP (Optional/Hybrid Use)
-
-**BLIP** excels at generating descriptive captions for images.
-
-* In advanced or hybrid modes, BLIP can generate a **contextual caption** for the image.
-* This rich text description can then be used to further refine the classification, or it can be used to generate more descriptive filenames when the renaming option is selected.
+### 2. Context Generation with BLIP
+**BLIP** is used to generate a rich, descriptive caption for the image. This caption can be leveraged in a hybrid classification mode for better context or directly used to create highly descriptive filenames when the renaming option is activated.
 
 ---
 
-## 🛠️ Configuration and Customization
+## 🛠️ Customization
 
-The current executable is designed for simplicity, but if you have access to the underlying Python source code, you can customize:
+Since you have access to the source code, you can easily modify the behavior:
 
-* **Classification Labels:** Adjust the predefined list of categories (e.g., change *'Cats'* to *'Felines'* or add a new category like *'Food Photography'*).
-* **Renaming Format:** Modify the template used for renaming files (e.g., change from `[Category]_[OriginalName]` to `[Date]_[Category]_[Index]`).
-* **Model Parameters:** Fine-tune the confidence thresholds or temperature settings for the CLIP and BLIP models.
+* **Classification Labels:** Edit the list of target classification categories within `main.py` to tailor it to your specific needs.
+* **Renaming Format:** Adjust the string template in the code that dictates how files are renamed (e.g., using date, category, and index).
+* **Model Parameters:** Advanced users can modify the confidence thresholds or fine-tune model loading parameters to optimize performance on specific hardware (like using a GPU if available).
 
 ---
 
@@ -70,15 +98,9 @@ The current executable is designed for simplicity, but if you have access to the
 
 | Issue | Potential Solution |
 | :--- | :--- |
-| **App crashes immediately.** | Ensure your operating system meets the basic requirements. Try running the executable from the command line to see if an error message appears. |
-| **Images not moving/classifying.** | Verify that the **path** you entered is correct and that the folder contains supported image files (`.jpg`, `.png`, etc.). Check the console output for any I/O errors. |
-| **Classification is inaccurate.** | The AI models are highly capable but not perfect. Try adjusting the classification strategy (if available) or ensuring your image content aligns with the default categories the models were trained on. |
-
----
-
-## 🤝 Contributing
-
-(If this were an open-source project, you would include sections on how to contribute, file bug reports, and submit pull requests here.)
+| **`ModuleNotFoundError`** | Make sure you activated your virtual environment and ran `pip install -r requirements.txt` successfully. |
+| **Slow Performance** | Classification using CLIP/BLIP is computationally intensive. Ensure you have a recent CPU, and if possible, run the script on a machine with an NVIDIA **GPU** and the appropriate **CUDA** drivers installed for a significant speed boost. |
+| **Inaccurate Classification** | Review the hard-coded classification labels in the script. Ensure they are clear and descriptive, helping the AI models categorize correctly. |
 
 ---
 
@@ -86,4 +108,4 @@ The current executable is designed for simplicity, but if you have access to the
 
 This application is provided under the **MIT License** license.
 
-*Copyright (c) 2025 Elhan B Thomas*
+*Copyright (c) 2025 Elhan B Thomas.*
