@@ -84,6 +84,6 @@ The current executable is designed for simplicity, but if you have access to the
 
 ## 📜 License
 
-This application is provided under the **[Insert License Type Here, e.g., MIT License]** license.
+This application is provided under the **MIT License** license.
 
-*Copyright (c) [Current Year] [Your Name or Organization Name]*
+*Copyright (c) 2025 Elhan B Thomas*
